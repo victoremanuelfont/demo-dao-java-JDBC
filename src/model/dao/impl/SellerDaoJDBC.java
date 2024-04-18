@@ -62,17 +62,8 @@ public class SellerDaoJDBC implements SellerDao {
 									// executeQuery()
 
 			if (rs.next()) { // Para testar se veio resultado, pois sempre a tabela começa na posição zero
-				Department dep = new Department();
-				dep.setId(rs.getInt("DepartmentId")); // procurando o valor do id do Department, que se chama
-														// DepartmentId
-				dep.setName(rs.getString("DepName"));
-				Seller obj = new Seller();
-				obj.setId(rs.getInt("Id"));
-				obj.setName(rs.getString("Name"));
-				obj.setEmail(rs.getString("Email"));
-				obj.setBaseSalary(rs.getDouble("BaseSalary"));
-				obj.setBirthDate(rs.getDate("BirthDate"));
-				obj.setDepartment(dep);
+				Department dep = instantiateDepartment(rs);
+				Seller obj = instantiateSeller(rs,dep);
 				return obj;
 			}
 			return null; // Para quando o if retornar zero. Significa que não existe nenhum vendedor com
@@ -83,9 +74,32 @@ public class SellerDaoJDBC implements SellerDao {
 			DB.closeStatement(st);
 			DB.closeResultSet(rs);
 			// DB.closeConnection(); Não fecha a conexão pois dentro do seller da pra fazer
-			// varias conexoes, e esse método foi apenas uma delas. 
+			// varias conexoes, e esse método foi apenas uma delas.
 		}
 
+	}
+
+	private Seller instantiateSeller(ResultSet rs, Department dep) throws SQLException {
+		Seller obj = new Seller();
+		obj.setId(rs.getInt("Id"));
+		obj.setName(rs.getString("Name"));
+		obj.setEmail(rs.getString("Email"));
+		obj.setBaseSalary(rs.getDouble("BaseSalary"));
+		obj.setBirthDate(rs.getDate("BirthDate"));
+		obj.setDepartment(dep);
+		return obj;
+	}
+
+	/*
+	 * Nessa instanciação vai precisar de tratamento de exceção, mas como ela vai
+	 * ser tratada no metodo findById, no metodo instantiateDepartmen vamos apenas
+	 * propaga-la
+	 */
+	private Department instantiateDepartment(ResultSet rs) throws SQLException {
+		Department dep = new Department();
+		dep.setId(rs.getInt("DepartmentId"));
+		dep.setName(rs.getString("DepName"));
+		return dep;
 	}
 
 	@Override
