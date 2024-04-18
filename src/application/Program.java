@@ -17,13 +17,17 @@ public class Program {
 		Seller seller = sellerDao.findById(3); // Para buscar o vendedor cujo codigo ID é 3
 		System.out.println(seller);
 		
-		System.out.println("\n==== TEST 1: seller findById =====");
+		System.out.println("\n==== TEST 2: seller findByDepartment =====");
 		Department department = new Department(2,null); // vai listar todos do departamento 2, que é chamado de eletronics
 		List<Seller> list = sellerDao.findByDepartment(department);
 		for(Seller obj : list) {
 			System.out.println(obj);
 		}
-		
+		System.out.println("\n==== TEST 3: seller findAll =====");
+		list = sellerDao.findAll(); // Mostrar todos os vendedores
+		for(Seller obj : list) {
+			System.out.println(obj);
+		}
 		
 	}
 
