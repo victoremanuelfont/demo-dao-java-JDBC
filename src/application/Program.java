@@ -1,6 +1,6 @@
 package application;
 
-import java.util.Date;
+import java.util.List;
 
 import model.dao.DaoFactory;
 import model.dao.SellerDao;
@@ -17,6 +17,12 @@ public class Program {
 		Seller seller = sellerDao.findById(3); // Para buscar o vendedor cujo codigo ID é 3
 		System.out.println(seller);
 		
+		System.out.println("\n==== TEST 1: seller findById =====");
+		Department department = new Department(2,null); // vai listar todos do departamento 2, que é chamado de eletronics
+		List<Seller> list = sellerDao.findByDepartment(department);
+		for(Seller obj : list) {
+			System.out.println(obj);
+		}
 		
 		
 	}
